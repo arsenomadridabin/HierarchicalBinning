@@ -5,7 +5,7 @@ python hierarchical_binning.py   --fe_file fe_last.json   --mg_file mg_last.json
 # Atom Count after Hierarchical binning
 python count_atoms_hierarchial.py --file filtered_bins_hierarchical.json --fe-rich 5
 
-#Visualize after Hierarchical binning
+# Visualize after Hierarchical binning
 python visualize.py
 
 # Plot filtered_bins
