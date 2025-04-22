@@ -1,4 +1,3 @@
-
 import json
 import numpy as np
 import argparse
@@ -7,9 +6,7 @@ import itertools
 import os
 import matplotlib.patches as patches
 
-# ----------------------------
 # Command-line Arguments
-# ----------------------------
 parser = argparse.ArgumentParser(description="Hierarchical binning of filtered Fe bins.")
 parser.add_argument("--cell_size", type=float, default=68.0, help="Size of the simulation cell")
 parser.add_argument("--num_bins", type=int, default=8, help="Top-level bins per dimension")
@@ -26,9 +23,7 @@ parser.add_argument("--output", type=str, default="filtered_bins_hierarchical.js
 
 args = parser.parse_args()
 
-# ----------------------------
 # Load coordinates
-# ----------------------------
 def load_coordinates(filepath):
     with open(filepath) as f:
         data = json.load(f)
@@ -46,9 +41,7 @@ atom_dict = {
     "o": o_coords
 }
 
-# ----------------------------
 # Binning
-# ----------------------------
 bin_size = args.cell_size / args.num_bins
 bin_edges = np.linspace(0, args.cell_size, args.num_bins + 1)
 
@@ -66,9 +59,7 @@ shape = (args.num_bins,) * 3
 bin_indices = {k: get_bin_indices(v) for k, v in atom_dict.items()}
 counts = {k: count_atoms(bin_indices[k], shape) for k in atom_dict}
 
-# ----------------------------
-# Filter top-level bins
-# ----------------------------
+#Filter top-level bins
 fe_ranges = [(args.lower_count, args.upper_count), (args.second_lower_count, args.second_upper_count)]
 filtered_bins = []
 
@@ -77,9 +68,7 @@ for i, j, k in itertools.product(range(args.num_bins), repeat=3):
     if any(lower <= fe_cnt <= upper for (lower, upper) in fe_ranges):
         filtered_bins.append((i, j, k))
 
-# ----------------------------
-# Hierarchical Binning
-# ----------------------------
+#Hierarchical Binning
 sub_bin_results = []
 sub_bin_size = bin_size / args.sub_bins
 
@@ -121,16 +110,13 @@ for i, j, k in filtered_bins:
 
     sub_bin_results.append(bin_result)
 
-# ----------------------------
-# Save JSON
-# ----------------------------
+#Save JSON
 with open(args.output, "w") as f:
     json.dump(sub_bin_results, f, indent=4)
 print(f"Saved hierarchical bin data to: {args.output}")
 
-# ----------------------------
-# Plot slices of sub-bins
-# ----------------------------
+"""
+Plot slices of sub-bins
 output_basename = os.path.splitext(args.output)[0]
 for bin_data in sub_bin_results:
     i, j, k = bin_data["bin_index"]
@@ -159,4 +145,4 @@ for bin_data in sub_bin_results:
 
     plt.close()
     print(f"Plot saved for bin ({i},{j},{k})")
-
+"""
