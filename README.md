@@ -1,3 +1,9 @@
+# Get last snapshot of out.dump
+python get_last_snapshot_from_out_dump.py
+
+# Appy shift to center Fe cluster in middle
+python apply_pbc_centered_fe.py
+
 # Run Hierarchical Binning first
 python hierarchical_binning.py   --fe_file fe_last.json   --mg_file mg_last.json   --si_file si_last.json   --o_file o_last.json   --cell_size 68   --num_bins 8   --sub_bins 2   --lower_count 0   --upper_count -1   --second_lower_count 40   --second_upper_count 60   --output filtered_bins_hierarchical.json
 
